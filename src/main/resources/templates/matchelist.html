@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template.html"
+>
+<head>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matche List</title>
+</head>
+<body>
+<header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container-fluid">
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarExample01"
+                    aria-controls="navbarExample01"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarExample01">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item active">
+                        <a th:href="@{/creatematche}" class="btn btn-primary">Matche Creation</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Jumbotron -->
+    <div class="p-1 text-center bg-light">
+        <h1 class="mb-3">Matche List</h1>
+    </div>
+    <!-- Jumbotron -->
+</header>
+<div layout:fragment="content">
+<main class="container mt-5">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Lieu</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="matche : ${matchesVue}">
+            <td th:text="${matche.id}"></td>
+            <td th:text="${#temporals.format(matche.dateMatch, 'yyyy/MM/dd')}"></td>
+            <td th:text="${matche.lieu}"></td>
+            <td>
+                <form th:action="@{/editMatche/{id}(id=${matche.id})}" th:object="${matche}" method="get">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+                <form th:action="@{/deleteMatche/{id}(id=${matche.id})}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+    <!-- Pagination for matchelist -->
+    <ul class="nav nav-pills">
+        <li th:each="page,status:${pages}">
+            <a th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
+               th:href="@{matchelist(page=${status.index},size=${size})}"
+               th:text="${status.index}"></a>
+        </li>
+    </ul>
+
+</main>
+
+
+<footer class="text-center text-lg-start bg-light text-muted">
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    </div>
+</footer>
+</div>
+</body>
+</html>

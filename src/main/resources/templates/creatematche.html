@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template.html"
+>
+<head>
+  <link rel="stylesheet" type="text/css" href="webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matche Creation - Bootstrap</title>
+</head>
+<body>
+<header>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container-fluid">
+      <button
+              class="navbar-toggler"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#navbarExample01"
+              aria-controls="navbarExample01"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarExample01">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item active">
+            <a th:href="@{/matcheList}" class="nav-link">Matche List</a>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar -->
+
+  <!-- Jumbotron -->
+  <div class="p-1 text-center bg-light">
+    <h1 class="mb-3">Matche Creation - Bootstrap</h1>
+  </div>
+  <!-- Jumbotron -->
+</header>
+<div layout:fragment="content">
+<main class="container mt-5">
+  <form th:action="@{/savematche}" th:object="${matche}" method="post">
+    <div class="form-group">
+      <label class="form-label" for="date">Date:</label>
+      <input class="form-control" type="date" id="date" th:field="*{dateMatch}" required><br>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="lieu">Lieu:</label>
+      <input class="form-control" type="text" id="lieu" th:field="*{lieu}" required><br>
+    </div>
+    <div class="form-group">
+      <input class="form-control btn btn-primary" type="submit" value="Save">
+    </div>
+  </form>
+
+</main>
+
+<footer class="text-center text-lg-start bg-light text-muted">
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+
+  </div>
+</footer></div>
+</body>
+</html>

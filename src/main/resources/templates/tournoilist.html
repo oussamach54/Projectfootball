@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Template.html"
+>
+<head>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournoi List</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <main class="container mt-5">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Date</th>
+                <th>Lieu</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tournoi : ${tournoisVue.content}">
+                <td th:text="${tournoi.id}"></td>
+                <td th:text="${tournoi.nom}"></td>
+                <td th:text="${#dates.format(tournoi.date, 'yyyy/MM/dd')}"></td>
+                <td th:text="${tournoi.lieu}"></td>
+                <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a th:href="@{'/editTournoi/' + ${tournoi.id}}">Edit</a>
+
+
+                <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <form th:action="@{/deleteTournoi/{id}(id=${tournoi.id})}" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form> </td>
+
+            </tr>
+            </tbody>
+        </table>
+        <ul class="nav nav-pills">
+            <li th:each="page,status:${pages}">
+                <a
+                        th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
+                        th:href="@{tournoiList(page=${status.index},size=${size})}"
+                        th:text="${status.index}"
+                >
+                </a>
+
+            </li>
+        </ul>
+    </main>
+
+</div>
+</body>
+</html>
